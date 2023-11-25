@@ -30,13 +30,14 @@ def main():
         center_sen = np.log(rob.read_irs()[5]) / 10
         back_sen = np.log(rob.read_irs()[1]) / 10
 
-        print("ROB Irs: {}".format(np.log(np.array(rob.read_irs())) / 10))
+        # print("ROB Irs: {}".format(np.log(np.array(rob.read_irs())) / 10))
         print("Center Sensor: " + str(center_sen))
         print("Back Sensor: " + str(back_sen))
 
         if moving:
             # print("robobo is at {}".format(rob.position()))
             rob.move(8, 8, 2000)
+            print("State: Moving")
 
             if -100 < center_sen <= -0.17:
                 moving = False
@@ -44,14 +45,16 @@ def main():
 
         elif turning:
             rob.move(-8, 8, 2000)
-            if -100 < back_sen <= -0.50:
-                turning = False
+            print("State: Turning")
+            if -100 < back_sen <= -0.17:
                 moving = True
+                turning = False
+
 
     # Following code gets an image from the camera
     image = rob.get_image_front()
     # IMPORTANT! `image` returned by the simulator is BGR, not RGB
-    cv2.imwrite("../test_pictures.png", image)
+    cv2.imwrite("results/test_pictures.png", image)
 
     time.sleep(0.1)
 
