@@ -39,9 +39,9 @@ def main():
             rob.move(8, 8, 2000)
             print("State: Moving")
 
-            if -100 < center_sen <= -0.17:
-                moving = False
-                turning = True
+            # if -100 < center_sen <= -0.17:
+            #     moving = False
+            #     turning = True
 
         elif turning:
             rob.move(-8, 8, 2000)
@@ -50,11 +50,10 @@ def main():
                 moving = True
                 turning = False
 
-
-    # Following code gets an image from the camera
+# Following code gets an image from the camera
     image = rob.get_image_front()
     # IMPORTANT! `image` returned by the simulator is BGR, not RGB
-    cv2.imwrite("imgs/test_pictures.png", image)
+    cv2.imwrite("results/test_pictures.png", image)
 
     time.sleep(0.1)
 
