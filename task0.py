@@ -54,7 +54,7 @@ def main():
     # Following code gets an image from the camera
     image = rob.get_image_front()
     # IMPORTANT! `image` returned by the simulator is BGR, not RGB
-    cv2.imwrite("imgs/test_pictures.png", image)
+    cv2.imwrite("imgs/test_img.png", image)
 
     time.sleep(0.1)
 
