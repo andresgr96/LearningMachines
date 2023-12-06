@@ -7,7 +7,7 @@ import cv2
 import sys
 import signal
 from src import robobo
-from src.LearningMachines.utils.computer_vision import red_mask
+from src.LearningMachines.utils.computer_vision import red_mask, segment_image, detect_objects
 
 
 def terminate_program(signal_number, frame):
@@ -20,7 +20,8 @@ def main():
     # rob = robobo.HardwareRobobo(camera=True).connect(address="192.168.1.7")
 
     rob = robobo.SimulationRobobo().connect(address='127.0.0.1', port=19997)
-    window_name = 'image'
+    mask_window = 'mask'
+    segment_window = 'segments'
 
     moving = True
     turning = False
@@ -29,6 +30,15 @@ def main():
     rob.set_phone_tilt(0.9,100)
 
     while True:
+        # Show masked image
+        image = rob.get_image_front()
+        mask = red_mask(image)
+        segmented = segment_image(image)
+        detect_objects(mask)
+        cv2.imshow(segment_window, segmented)
+        # cv2.imshow(mask_window, mask)
+        cv2.waitKey(1)
+
         try:
             center_sen = np.log(rob.read_irs()[5]) / 10
             back_sen = np.log(rob.read_irs()[1]) / 10
@@ -41,14 +51,11 @@ def main():
 
         if moving:
             # print("robobo is at {}".format(rob.position()))
-            rob.move(8, 8, 2000)
+
+            # rob.move(8, 8, 200)
             print("State: Moving")
 
-            #Show masked image
-            image = rob.get_image_front()
-            mask = red_mask(image)
-            cv2.imshow(window_name, mask)
-            cv2.waitKey(1)
+
 
             # # Save img if needed
             # cv2.imwrite("imgs/test_img.png", image)
