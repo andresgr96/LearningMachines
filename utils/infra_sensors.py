@@ -1,11 +1,13 @@
 import numpy as np
 
+
 def gripper(rob):
     in_gripper = 0
-    front_irs = rob.read_irs()[5]
+    front_irs = np.log(rob.read_irs()[5]) / 10
+    print(front_irs)
 
     # Use The frontal center sensor to detect if an object is very close, then its gripped
-    if front_irs <= 0.085:
+    if -100 < front_irs <= -0.24:
         in_gripper = 1
         print("Grabbed")
     # else:

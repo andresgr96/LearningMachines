@@ -46,7 +46,7 @@ def main():
             # print("Center Sensor: " + str(center_sen))
             # print("Back Sensor: " + str(back_sen))
             gripper(rob)
-            print(get_irs_sensors(rob))
+            # print(get_irs_sensors(rob))
         except:
             print(f"Error reading proximity sensors")
             time.sleep(0.1)

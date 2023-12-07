@@ -3,8 +3,8 @@ import numpy as np
 
 
 class Controller(object):
-    def control(self, controller: np.array):
-        action1 = np.random.choice([-0.5, 0.5])
-        action2 = np.random.choice([-0.5, 0.5])
+    def control(self):
+        action1 = np.random.choice([-10, 10])
+        action2 = np.random.choice([-10, 10])
 
         return [action1, action2]

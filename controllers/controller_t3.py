@@ -1,11 +1,11 @@
 import numpy as np
-from controller import Controller
+# from controller import Controller
 from src.LearningMachines.utils.deep_l import tanh_activation, sigmoid_activation
 from src.LearningMachines.utils.computer_vision import red_mask, green_mask, detect_objects
 from src.LearningMachines.utils.infra_sensors import gripper, get_irs_sensors
 
 
-class RoboboController(Controller):
+class RoboboController:
     def __init__(self, rob):
         # Number of hidden neurons
         self.n_hidden_neurons = 11
@@ -14,24 +14,24 @@ class RoboboController(Controller):
         self.number_of_actions = 2
         self.rob = rob
         
-        # Irs Sensors
-        self.back_L = 0
-        self.back_R = 0
-        self.back_C = 0
-        self.front_LL = 0
-        self.front_L = 0
-        self.front_C = 0
-        self.front_R = 0
-        self.front_RR = 0
-
-        self.green_left = 0
-        self.green_center = 0
-        self.green_right = 0
-        self.red_left = 0
-        self.red_center = 0
-        self.red_right = 0
-
-        self.food_in_gripper = 0
+        # # Irs Sensors
+        # self.back_L = 0
+        # self.back_R = 0
+        # self.back_C = 0
+        # self.front_LL = 0
+        # self.front_L = 0
+        # self.front_C = 0
+        # self.front_R = 0
+        # self.front_RR = 0
+        #
+        # self.green_left = 0
+        # self.green_center = 0
+        # self.green_right = 0
+        # self.red_left = 0
+        # self.red_center = 0
+        # self.red_right = 0
+        #
+        # self.food_in_gripper = 0
 
     def step(self, controller: np.array):
         left, right = self.control(controller)
@@ -83,3 +83,10 @@ class RoboboController(Controller):
         ], float)
 
         return np.nan_to_num(vals)
+
+    def dist_food_to_base(self):
+        food = np.array(self.rob.food_position())
+        base = np.array(self.rob.base_position())
+
+        squared_dist = np.sum((food - base) ** 2, axis=0)
+        return np.sqrt(squared_dist)
