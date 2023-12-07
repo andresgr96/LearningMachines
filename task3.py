@@ -8,7 +8,7 @@ import sys
 import signal
 from src import robobo
 from src.LearningMachines.utils.computer_vision import red_mask, segment_image, detect_objects
-from src.LearningMachines.utils.helpers import gripper
+from src.LearningMachines.utils.infra_sensors import gripper, get_irs_sensors
 
 
 def terminate_program(signal_number, frame):
@@ -46,6 +46,7 @@ def main():
             # print("Center Sensor: " + str(center_sen))
             # print("Back Sensor: " + str(back_sen))
             gripper(rob)
+            print(get_irs_sensors(rob))
         except:
             print(f"Error reading proximity sensors")
             time.sleep(0.1)
