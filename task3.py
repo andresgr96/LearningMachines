@@ -8,6 +8,7 @@ import sys
 import signal
 from src import robobo
 from src.LearningMachines.utils.computer_vision import red_mask, segment_image, detect_objects
+from src.LearningMachines.utils.helpers import gripper
 
 
 def terminate_program(signal_number, frame):
@@ -44,6 +45,7 @@ def main():
             back_sen = np.log(rob.read_irs()[1]) / 10
             # print("Center Sensor: " + str(center_sen))
             # print("Back Sensor: " + str(back_sen))
+            gripper(rob)
         except:
             print(f"Error reading proximity sensors")
             time.sleep(0.1)
@@ -52,7 +54,7 @@ def main():
         if moving:
             # print("robobo is at {}".format(rob.position()))
 
-            # rob.move(8, 8, 200)
+            rob.move(8, 8, 200)
             print("State: Moving")
 
 

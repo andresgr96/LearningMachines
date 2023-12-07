@@ -13,7 +13,7 @@ def green_mask(img):
     return mask
 
 def segment_image(img):
-    color = (0, 0, 255)  # BGR color (red in this case)
+    color = (0, 0, 255)  # red
     thickness = 2
     num_segments = 3
     segment_width = img.shape[1] // num_segments
@@ -29,18 +29,18 @@ def segment_image(img):
 
     return img
 
-def detect_objects(masked_image):
-    num_segments = 3
 
-    # Calculate segment width and height
-    segment_width = masked_image.shape[1] // num_segments
-    segment_height = masked_image.shape[0] // num_segments
+def detect_objects(masked_image):  # This function works regardless of the color, since it takes a binary img as input
+    num_segments = 3
 
     # Define the segments
     segments = []
+    segment_width = masked_image.shape[1] // num_segments
+    segment_height = masked_image.shape[0] // num_segments
     segment_names = ["Top Left", "Middle Left", "Bottom Left", "Top Center", "Middle Center", "Bottom Center",
                      "Top Right", "Middle Right", "Bottom Right"]
 
+    # A cleaner war to define each segment thanks to ChatGPT
     for i in range(num_segments):
         for j in range(num_segments):
             start_x = i * segment_width
@@ -49,16 +49,13 @@ def detect_objects(masked_image):
             end_y = (j + 1) * segment_height
             segments.append((start_x, end_x, start_y, end_y))
 
-    # Initialize pixel count for each segment
+    # Count pixels in each segment and form output
     segment_pixel_counts = [0] * len(segments)
-
-    # Count pixels in each segment
     for idx, (start_x, end_x, start_y, end_y) in enumerate(segments):
         segment = masked_image[start_y:end_y, start_x:end_x]
         segment_pixel_counts[idx] = cv2.countNonZero(segment)
-
         segment_name = segment_names[idx]
-        print(f"Pixel Count for {segment_name} segment: {segment_pixel_counts[idx]}")
+        # print(f"Pixel Count for {segment_name} segment: {segment_pixel_counts[idx]}")
 
     return segment_pixel_counts
 
